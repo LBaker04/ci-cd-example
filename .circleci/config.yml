@@ -36,9 +36,10 @@ jobs:
       - attach_workspace:
           at: .
       - checkout
-      - run: aws s3 sync ./app/build s3://ci-cd-example
+      - run: docker tag hello-world "353629507665.dkr.ecr.eu-west-2.amazonaws.com/hello-repository"
+      - run: docker login -u AWS -p $(aws ecr get-login-password --region eu-west-2) 353629507665.dkr.ecr.eu-west-2.amazonaws.com
+      - run: docker push 353629507665.dkr.ecr.eu-west-2.amazonaws.com/hello-repository
     
-
 workflows:
   build_test_deploy:
     jobs:
